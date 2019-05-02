@@ -27,6 +27,17 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+
+gem "will_paginate"
+#分頁用外掛
+gem "awesome_print"
+gem "rails-pry"
+gem "devise"
+#註冊登入系統
+gem "paperclip"
+#檔案上傳
+
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
