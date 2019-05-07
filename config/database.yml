@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: project_production
-  username: project
-  password: <%= ENV['PROJECT_DATABASE_PASSWORD'] %>
+  username: <%= Rails.application.credentials.aws[:access_key_id] %>
+  password: <%= Rails.application.credentials.aws[:secret_access_key] %>

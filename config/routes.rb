@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :statics , :only => [:index]
   root "statics#index"
 
-  resources :rockets , :only =>[:index , :show]
+  resources :rockets , :only => [:index , :show]
 
   namespace :dashboard do
 
