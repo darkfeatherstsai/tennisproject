@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
     resources :rockets
 
-    namespace :qnklkfdiosidfho do
+    namespace :admin, path: "sj3xu418" do
       resources :rockets
       resources :trackinglists
       resources :users
