@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   namespace :dashboard do
 
     resources :rockets
+    resources :trackinglists
 
     namespace :admin, path: "sj3xu418" do
       resources :rockets
