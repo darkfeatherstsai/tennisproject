@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
   devise_for :managers
   devise_for :users
-  resources :statics , :only => [:index]
-  root "statics#index"
+  root "rockets#index"
 
   resources :rockets , :only => [:index , :show]
 
