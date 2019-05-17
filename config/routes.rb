@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
   devise_for :managers
   devise_for :users
-  root "rockets#index"
+  root "rackets#index"
 
-  resources :rockets , :only => [:index , :show]
+  resources :rackets , :only => [:index , :show]
 
   namespace :dashboard do
 
-    resources :rockets
+    resources :rackets
     resources :trackinglists
 
     namespace :admin, path: "sj3xu418" do
-      resources :rockets
+      resources :rackets
       resources :trackinglists
       resources :users
       resources :managers
