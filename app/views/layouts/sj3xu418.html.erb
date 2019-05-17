@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Project</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <<h1>後台頁面:admin</h1>
+      Hi! <%= current_manager.email %> , <%= link_to "登出" , destroy_manager_session_path , :method => 'delete' %>
+
+    <hr/>
+
+    <%= will_paginate @paginate if  @paginate %>
+
+    <hr/>
+
+    <%= yield %>
+
+    <hr/>
+
+    <%= will_paginate @paginate if  @paginate %>
+
+  </body>
+</html>

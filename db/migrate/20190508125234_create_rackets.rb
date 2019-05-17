@@ -1,6 +1,6 @@
-class CreateRockets < ActiveRecord::Migration[5.2]
+class CreateRackets < ActiveRecord::Migration[5.2]
   def change
-    create_table :rockets do |t|
+    create_table :rackets do |t|
         t.string :name
         t.string :label
         t.integer :weight
