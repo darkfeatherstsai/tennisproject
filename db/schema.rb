@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_08_125234) do
+ActiveRecord::Schema.define(version: 2019_05_28_021748) do
 
   create_table "managers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2019_05_08_125234) do
     t.text "spec"
     t.string "profile"
     t.string "location"
-    t.string "url"
+    t.string "fb_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
