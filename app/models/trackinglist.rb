@@ -1,4 +1,4 @@
 class Trackinglist < ApplicationRecord
-  has_many :racket
+  belongs_to :user
   serialize :racket_id,Array
 end
