@@ -29,7 +29,7 @@ racket_urls.each do |racket_url|
   end
 
 
-  if process_content[0].include("賣") == true
+  if process_content[0].include?("賣") == true
     a = Racket.new
     a.name = process_content[1]
 

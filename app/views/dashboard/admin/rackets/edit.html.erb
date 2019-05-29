@@ -1,0 +1,13 @@
+<h1>編輯商品</h1>
+
+<%= form_for(@racket , {:url => dashboard_admin_racket_path , :method => "patch"}) do |f| %>
+  名子<%= f.text_field :name %><br/>
+  廠牌<%= f.text_field :label %><br/>
+  重量<%= f.number_field :weight %><br/>
+  價格<%= f.number_field :price %><br/>
+  規格<%= f.text_field :spec %><br/>
+  使用概況<%= f.text_area :profile %><br/>
+  地點<%= f.text_field :location %><br/>
+  連結<%= f.text_field :fb_url %><br/>
+  <button type="submit">送出</button>
+<% end %>
