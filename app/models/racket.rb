@@ -1,3 +1,3 @@
 class Racket < ApplicationRecord
-  belongs_to :trackinglist
+  has_many :trackinglist
 end

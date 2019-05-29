@@ -5,7 +5,6 @@
 <table>
   <thead>
     <tr>
-      <th>id</th>
       <th>名子</th>
       <th>廠牌</th>
       <th>重量</th>
@@ -29,9 +28,8 @@
         <td><%= racket.spec %></td>
         <td><%= racket.profile %></td>
         <td><%= racket.location %></td>
-        <td><%= racket.url %></td>
+        <td><%= racket.fb_url %></td>
         <td>
-          <%= link_to '編輯',  edit_dashboard_admin_racket_path(racket) %>
           <%= link_to '刪除', dashboard_admin_racket_path(racket), method: :delete, data: { confirm: '你確定嗎?' } %>
         </td>
       </tr>
