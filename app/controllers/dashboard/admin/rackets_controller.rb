@@ -3,6 +3,10 @@ class Dashboard::Admin::RacketsController < Dashboard::Admin::AdminController
     @rackets = @paginate = Racket.paginate(:page => params[:page])
   end
 
+  def new
+    @racket = Racket.new
+  end
+
   def edit
     @racket = Racket.find(params[:id])
   end
@@ -10,7 +14,7 @@ class Dashboard::Admin::RacketsController < Dashboard::Admin::AdminController
   def create
     @racket = Racket.new(racket_params)
     if @racket.save!
-      redirect_to @racket, notice: '球拍資料成功新增！！！'
+      redirect_to :action => :index , notice: '球拍資料成功新增！！！'
     else
       render :new
     end
@@ -25,7 +29,7 @@ class Dashboard::Admin::RacketsController < Dashboard::Admin::AdminController
   def destroy
     @racket = Racket.find(params[:id])
     @racket.destroy
-    redirect_to rackets_url, notice: '球拍資料已刪除！！！'
+    redirect_to :action => :index , notice: '球拍資料已刪除！！！'
   end
 
   private
