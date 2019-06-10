@@ -29,24 +29,27 @@ racket_urls.each do |racket_url|
   end
 
 
-  if process_content[0].include?("賣") == true
+  if process_content[0] == nil || process_content[0].include?("買") == false
     a = Racket.new
     a.name = process_content[1]
-
-    case process_content[1].downcase!
-    when process_content[1].include?("wilson")
+    process_content[1].downcase!
+    if process_content[1].include?("wilson")
       a.label = "wilson"
-    when process_content[1].include?("babolat")
+    elsif process_content[1].include?("babolat")
       a.label = "babolat"
-    when process_content[1].include?("yonex")
+    elsif process_content[1].include?("yonex")
       a.label = "yonex"
-    when process_content[1].include?("head")
+    elsif process_content[1].include?("head")
       a.label = "head"
-    when process_content[1].include?("dunlop")
+    else process_content[1].include?("dunlop")
       a.label = "dunlop"
     end
 
-    a.weight = process_content[2]
+    a.weight = 0
+    process_content[2].split(/\D/).each do |i|
+      a.weight = i.to_i if i.to_i > 250
+    end
+
     a.price = process_content[5]
     a.spec = process_content[2]
     a.profile = process_content[3]
