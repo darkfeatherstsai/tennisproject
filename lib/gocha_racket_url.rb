@@ -18,42 +18,28 @@ racket_urls.each do |racket_url|
 
   doc = Nokogiri::HTML(html)
 
-  content = doc.search('meta').to_a[12].attr('content')
-
-  process_content = []
-  content_index = 0
-
-  content.delete!("\n").split("[").each do |element|
-    process_content << element.split("：")[content_index]
-    content_index += 1 if content_index < 1
-  end
-
-
-  if process_content[0] == nil || process_content[0].include?("買") == false
+  content = doc.search('meta').to_a[12].attr('content').split("\n")
+  content.delete("")
+  if content[0].include?("買") == false
     a = Racket.new
-    a.name = process_content[1]
-    process_content[1].downcase!
-    if process_content[1].include?("wilson")
+    a.name = content.select{|element| element.match(/[物品名稱]/)}[0].split(/[:：\}]/)[1]
+    a.name.downcase!
+    if a.name.include?("wilson")
       a.label = "wilson"
-    elsif process_content[1].include?("babolat")
+    elsif a.name.include?("babolat")
       a.label = "babolat"
-    elsif process_content[1].include?("yonex")
+    elsif a.name.include?("yonex")
       a.label = "yonex"
-    elsif process_content[1].include?("head")
+    elsif a.name.include?("head")
       a.label = "head"
-    else process_content[1].include?("dunlop")
+    else a.name.include?("dunlop")
       a.label = "dunlop"
     end
 
-    a.weight = 0
-    process_content[2].split(/\D/).each do |i|
-      a.weight = i.to_i if i.to_i > 250
-    end
-
-    a.price = process_content[5]
-    a.spec = process_content[2]
-    a.profile = process_content[3]
-    a.location = process_content[4]
+    a.weight = content.select{|element| element.match(/[2-90]{3}/)}[0].match(/\d{3}/)[0]
+    a.price = content.select{|element| element.match(/\d{4}/)}[0].match(/\d{4}/)[0]
+    a.spec = content.select{|element| element.match(/[規格]/)}[0]
+    a.profile = content.select{|element| element.match(/[使用概況狀態]/)}[0].split(/[:：]/)[1]
     a.fb_url = racket_url
     a.save
   end
