@@ -23,9 +23,9 @@ racket_urls.each do |racket_url|
 
   puts racket_url
 
-  if content[0].match?(/[買]/) == false && content[1].match?(/[鞋車日本袋]/) == false
+  if content[0].match?(/[買]/) == false && content[1].match?(/[鞋車日本袋]|back/) == false
     a = Racket.new
-    a.name = content.select{|element| element.match(/[物品名稱]/)}[0].split(/[:：\}]/)[1]
+    a.name = content.select{|element| element.match(/[物品名稱]/)}[0].split(/[:：\}\]]/)[1]
     a.name.downcase!
     if a.name.include?("wil")
       a.label = "wilson"
@@ -40,7 +40,7 @@ racket_urls.each do |racket_url|
     end
 
     a.weight = content.select{|element| element.match(/[2-90]{3}/)}[0].match(/\d{3}/)[0]
-    a.price = content.select{|element| element.match(/[售價元]/)}[0].match(/\d{4}/)[0]
+    a.price = content.select{|element| element.match(/售價|元/)}[0].match(/\d{4}/)[0]
     a.spec = content.select{|element| element.match(/[規格]/)}[0]
     a.profile = content.select{|element| element.match(/[使用概況狀態]/)}[0].split(/[:：]/)[1] if content.select{|element| element.match(/[使用概況狀態]/)}[0] != nil
     a.fb_url = racket_url
