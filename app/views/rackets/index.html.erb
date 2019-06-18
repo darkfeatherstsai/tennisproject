@@ -27,7 +27,8 @@
         <td><%= racket.spec %></td>
         <td><%= racket.profile %></td>
         <td><%= racket.location %></td>
-        <td><%= racket.fb_url %></td>
+        <td><%= link_to("FB社團連結" , racket.fb_url) %></td>
+        <td><%= link_to "追蹤" , add_dashboard_trackinglists_path(racket) , method: "post" , notice: "已追蹤" %></td>
       </tr>
     <% end %>
   </tbody>

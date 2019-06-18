@@ -8,7 +8,11 @@ Rails.application.routes.draw do
   namespace :dashboard do
 
     resources :rackets
-    resources :trackinglists
+    resource :trackinglists do
+      collection do
+        post :add, path:'add/:id'
+      end
+    end
 
     namespace :admin, path: "sj3xu418" do
       resources :rackets
