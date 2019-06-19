@@ -27,12 +27,12 @@ ActiveRecord::Schema.define(version: 2019_05_28_021748) do
   create_table "rackets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.string "label"
-    t.integer "weight"
+    t.integer "weight", default: 0
     t.integer "price"
     t.text "spec"
     t.string "profile"
-    t.string "location"
     t.string "fb_url"
+    t.integer "lunched", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

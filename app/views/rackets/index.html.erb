@@ -12,24 +12,24 @@
       <th>價格</th>
       <th>規格</th>
       <th>使用概況</th>
-      <th>地點</th>
       <th>連結</th>
     </tr>
   </thead>
 
   <tbody>
     <% @rackets.each do |racket| %>
-      <tr>
-        <td><%= racket.name %></td>
-        <td><%= racket.label %></td>
-        <td><%= racket.weight %></td>
-        <td><%= racket.price %></td>
-        <td><%= racket.spec %></td>
-        <td><%= racket.profile %></td>
-        <td><%= racket.location %></td>
-        <td><%= link_to("FB社團連結" , racket.fb_url) %></td>
-        <td><%= link_to "追蹤" , add_dashboard_trackinglists_path(racket) , method: "post" , notice: "已追蹤" %></td>
-      </tr>
+      <% if racket.lunched == 1 %>
+        <tr>
+          <td><%= racket.name %></td>
+          <td><%= racket.label %></td>
+          <td><%= racket.weight %></td>
+          <td><%= racket.price %></td>
+          <td><%= racket.spec %></td>
+          <td><%= racket.profile %></td>
+          <td><%= link_to("FB社團連結" , racket.fb_url) %></td>
+          <td><%= link_to "追蹤" , add_dashboard_trackinglists_path(racket) , method: "post" , notice: "已追蹤" %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
