@@ -58,10 +58,22 @@ begin
       a.label = "其他"
     end
 
-    a.weight = content.select{|element| element.match(/\d{3}[g克]/)}[0].match(/\d{3}/)[0].to_i if content.select{|element| element.match(/\d{3}[g克]/)}[0].match(/\d{3}/)[0] != nil
-    a.price = content.select{|element| element.match(/售價|元|\$/)}[0].match(/\d{4}/)[0] if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
-    a.spec = content.select{|element| element.match(/[規格]/)}[0].delete("產品規格：:]") if content.select{|element| element.match(/[規格]/)}[0] != nil
-    a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：\s]/)[1] if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
+    if content.select{|element| element.match(/\d{3}[g克]/)} != nil
+      a.weight = content.select{|element| element.match(/\d{3}[g克]/)}[0].match(/\d{3}/)[0].to_i
+    end
+
+    if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
+      a.price = content.select{|element| element.match(/售價|元|\$/)}[0].match(/\d{4}/)[0]
+    end
+
+    if content.select{|element| element.match(/[規格]/)}[0] != nil
+      a.spec = content.select{|element| element.match(/[規格]/)}[0].delete("產品規格：:]")
+    end
+
+    if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
+      a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：\s]/)[1]
+    end
+
     a.fb_url = racket_url
     a.lunched = 1 if a.name.size < 50
     a.save
