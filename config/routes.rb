@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resource :trackinglists do
       collection do
         post :add, path:'add/:id'
+        delete :destroy, path:'destroy/:id'
       end
     end
 
