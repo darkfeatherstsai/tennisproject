@@ -8,9 +8,10 @@ Rails.application.routes.draw do
   namespace :dashboard do
 
     resources :rackets
-    resource :trackinglists do
-      collection do
+    resources :trackinglists do
+      member do
         post :add, path:'add/:id'
+        delete :destroy, path:'delete/:id'
       end
     end
 

@@ -5,14 +5,13 @@
 <table>
   <thead>
     <tr>
-      <th>id</th>
       <th>名子</th>
       <th>廠牌</th>
       <th>重量</th>
       <th>價格</th>
       <th>規格</th>
       <th>使用概況</th>
-      <th>上架</th>
+      <th>地點</th>
       <th>連結</th>
       <th>管理</th>
     </tr>
@@ -28,10 +27,9 @@
         <td><%= racket.price %></td>
         <td><%= racket.spec %></td>
         <td><%= racket.profile %></td>
-        <td><%= racket.lunched %></td>
-        <td><%= link_to("FB社團連結" , racket.fb_url) %></td>
+        <td><%= racket.location %></td>
+        <td><%= racket.fb_url %></td>
         <td>
-          <%= link_to '編輯',  edit_dashboard_admin_racket_path(racket) %>
           <%= link_to '刪除', dashboard_admin_racket_path(racket), method: :delete, data: { confirm: '你確定嗎?' } %>
         </td>
       </tr>
@@ -40,5 +38,3 @@
 </table>
 
 <br>
-
-<%= link_to '新增球拍', new_dashboard_admin_racket_path %>
