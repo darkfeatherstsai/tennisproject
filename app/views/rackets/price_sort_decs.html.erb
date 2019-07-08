@@ -1,14 +1,9 @@
-<h1> 首頁 </h1>
+<h1> <%= link_to "首頁" , root_path %> </h1>
 
 <p id="notice"><%= notice %></p>
 
-<h1>商品列表   <%= link_to "我的追蹤" , dashboard_trackinglists_path %> </h1>
-<h2>
-  <%= link_to "價格由高至低" , rackets_price_sort_decs_path %>
-  <%= link_to "價格由低至高" , rackets_price_sort_acs_path %>
-  <%= link_to "廠牌由A至Z" , rackets_label_sort_acs_path %>
-  <%= link_to "廠牌由Z至A" , rackets_label_sort_decs_path %>
-</h2>
+<h1>商品列表   <%= link_to "我的追蹤" , dashboard_trackinglists_path %></h1>
+
 <table>
   <thead>
     <tr>

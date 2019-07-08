@@ -1,4 +1,6 @@
 class Dashboard::Admin::RacketsController < Dashboard::Admin::AdminController
+
+
   def index
     @rackets = @paginate = Racket.paginate(:page => params[:page])
   end
@@ -31,6 +33,8 @@ class Dashboard::Admin::RacketsController < Dashboard::Admin::AdminController
     @racket.destroy
     redirect_to :action => :index , notice: '球拍資料已刪除！！！'
   end
+
+
 
   private
 
