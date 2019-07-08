@@ -20,6 +20,7 @@ end
 error_url = []
 
 racket_urls.each do |racket_url|
+  begin
   html = open(racket_url).read
 
   doc = Nokogiri::HTML(html)
@@ -34,7 +35,7 @@ racket_urls.each do |racket_url|
 
   puts racket_url
 
-begin
+
   if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋車機衣包顆]|back/)}[0] == nil
     a = Racket.find_by(fb_url: racket_url)
     a ||= Racket.new
@@ -81,7 +82,7 @@ begin
 
 rescue
   error_url << racket_url
-  puts "失敗"
+  puts $!
 end
 
 end
