@@ -20,4 +20,8 @@ class RacketsController < ApplicationController
     @rackets = @paginate = Racket.order(label: :asc).paginate(:page => params[:page])
   end
 
+  def findracket
+    @rackets = @paginate = Racket.where(name: "input").paginate(:page => params[:page])
+  end
+
 end

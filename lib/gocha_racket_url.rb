@@ -55,6 +55,8 @@ racket_urls.each do |racket_url|
       a.label = "dunlop"
     elsif a.name.include?("vol")
       a.label = "volkl"
+    elsif a.name.include?("tecn")
+      a.label = "tecnifibre"
     else
       a.label = "其他"
     end
