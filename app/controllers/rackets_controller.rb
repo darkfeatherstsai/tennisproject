@@ -21,7 +21,7 @@ class RacketsController < ApplicationController
   end
 
   def findracket
-    @rackets = @paginate = Racket.where(name: "input").paginate(:page => params[:page])
+    @rackets = @paginate = Racket.where("label = ?" , params[:keyword]).paginate(:page => params[:page])
   end
 
 end

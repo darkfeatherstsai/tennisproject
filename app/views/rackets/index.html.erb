@@ -3,10 +3,11 @@
 <p id="notice"><%= notice %></p>
 
 <h1>商品列表   <%= link_to "我的追蹤" , dashboard_trackinglists_path %> </h1>
-<form action="rackets/findracket" method="post" >
-<input type="text" id="keyword" name="keyword" value="">
-<button class="inputbtn" title="搜尋" type="submit">搜尋</button>
-</form>
+<%= form_tag("rackets/findracket", method: "get") do %>
+  <%= label_tag(:keyword, "Search for:") %>
+  <%= text_field_tag(:keyword) %>
+  <%= submit_tag("search") %>
+<% end %>
 <h2>
   <%= link_to "價格由高至低" , rackets_price_sort_decs_path %>
   <%= link_to "價格由低至高" , rackets_price_sort_acs_path %>

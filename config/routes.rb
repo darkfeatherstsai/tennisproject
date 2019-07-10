@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "rackets/price_sort_acs" , to: "rackets#price_sort_acs"
   get "rackets/label_sort_decs" , to: "rackets#label_sort_decs"
   get "rackets/label_sort_acs" , to: "rackets#label_sort_acs"
-  post "rackets/findracket" , to: "rackets#findracket"
+  get "rackets/findracket" , to: "rackets#findracket"
 
   namespace :dashboard do
 
