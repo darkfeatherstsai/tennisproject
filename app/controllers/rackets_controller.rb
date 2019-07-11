@@ -21,7 +21,14 @@ class RacketsController < ApplicationController
   end
 
   def findracket
-    @rackets = @paginate = Racket.where("label = ?" , params[:keyword]).paginate(:page => params[:page])
-  end
+    found_racket = []
+    Racket.find_each do |r|
+      if r.lunched == 1 && (r.name.include?(params[:keyword]) || r.label.include?(params[:keyword]))
+        found_racket << r
+      end
+    end
 
+    @rackets = @paginate = found_racket.paginate(:page => params[:page])
+
+  end
 end
