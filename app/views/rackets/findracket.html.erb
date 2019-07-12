@@ -3,7 +3,7 @@
 <p id="notice"><%= notice %></p>
 
 <h1>商品列表   <%= link_to "我的追蹤" , dashboard_trackinglists_path %> </h1>
-<%= form_tag("rackets/findracket", method: "get") do %>
+<%= form_tag("findracket", method: "get") do %>
   <%= label_tag(:keyword, "Search for:") %>
   <%= text_field_tag(:keyword) %>
   <%= submit_tag("search") %>

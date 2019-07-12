@@ -3,7 +3,13 @@ Rails.application.routes.draw do
   devise_for :users
   root "rackets#index"
 
-  resources :rackets , :only => [:index , :show]
+  resources :rackets , :only => [:index ]
+
+  get "rackets/price_sort_decs" , to: "rackets#price_sort_decs"
+  get "rackets/price_sort_acs" , to: "rackets#price_sort_acs"
+  get "rackets/label_sort_decs" , to: "rackets#label_sort_decs"
+  get "rackets/label_sort_acs" , to: "rackets#label_sort_acs"
+  get "rackets/findracket" , to: "rackets#findracket"
 
   namespace :dashboard do
 
