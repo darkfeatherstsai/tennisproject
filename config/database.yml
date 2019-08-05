@@ -46,7 +46,7 @@ test:
 #
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
-#
+#config/database.yml
 production:
   url: <%= ENV['CLEARDB_DATABASE_URL'] %>
   database: tennis_production

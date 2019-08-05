@@ -36,8 +36,10 @@ gem "devise"
 #註冊登入系統
 gem "paperclip"
 #檔案上傳
-
-
+gem "whenever"
+#定時執行
+gem 'selenium-webdriver'
+#網頁爬蟲
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
