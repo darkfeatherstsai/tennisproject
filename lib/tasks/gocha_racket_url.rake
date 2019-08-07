@@ -2,6 +2,7 @@ namespace :gocha do
   desc "A task used for gocha racket url"
   task :get_url => :environment do
 
+    Selenium::WebDriver::Firefox::Binary.path='/usr/local/bin:/usr/bin:/bin:/app/vendor/firefox'
     options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
 
     driver = Selenium::WebDriver.for(:firefox, options: options)
