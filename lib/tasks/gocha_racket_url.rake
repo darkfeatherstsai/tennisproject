@@ -3,8 +3,12 @@ namespace :gocha do
   task :get_url => :environment do
 
 
-    options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
+    args = %w[--disable-infobars --headless window-size=1600,1200 --no-sandbox --disable-gpu]
+  options = {
+         binary: ENV['GOOGLE_CHROME_BIN'],
+         prefs: { password_manager_enable: false, credentials_enable_service: false },
+         args:  args
+       }    
     driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
 
