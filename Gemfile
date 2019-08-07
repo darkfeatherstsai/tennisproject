@@ -39,7 +39,7 @@ gem "paperclip"
 gem "whenever"
 #定時執行
 gem 'selenium-webdriver'
-gem "chromedriver-helper"
+gem 'webdrivers', '~> 4.0'
 #網頁爬蟲
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
