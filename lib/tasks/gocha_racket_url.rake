@@ -4,8 +4,6 @@ namespace :gocha do
 
 
     options = Selenium::WebDriver::Chrome::Options.new
-    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-    options.binary = chrome_bin_path if chrome_bin_path
     options.add_argument('--headless')
     driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
