@@ -2,7 +2,7 @@ namespace :gocha do
   desc "A task used for gocha racket url"
   task :get_url => :environment do
 
-    options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+    options = Selenium::WebDriver::Firefox::Binary::Options.new(args: ['-headless'])
 
     driver = Selenium::WebDriver.for(:firefox, options: options)
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
