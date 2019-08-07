@@ -42,7 +42,8 @@ gem 'selenium-webdriver'
 #網頁爬蟲
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
-
+gem 'chromedriver-helper'
+gem 'capybara', '>= 2.15'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
