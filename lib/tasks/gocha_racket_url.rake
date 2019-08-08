@@ -3,10 +3,7 @@ namespace :gocha do
   task :get_url => :environment do
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.binary_location = "/app/.apt/usr/bin/google-chrome"
-    options.add_argument('--disable-gpu')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--headless') # this may be optional
+    options.add_argument('--headless')
     driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
 
