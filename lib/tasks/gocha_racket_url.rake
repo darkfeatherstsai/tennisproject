@@ -3,8 +3,9 @@ namespace :gocha do
   task :get_url => :environment do
 
     options = Selenium::WebDriver::Chrome::Options.new
-    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-    options.binary = chrome_bin_path if chrome_bin_path # only use custom path on heroku
+    chrome_options.binary_location = GOOGLE_CHROME_BIN
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
     options.add_argument('--headless') # this may be optional
     driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
