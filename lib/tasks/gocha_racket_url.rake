@@ -2,11 +2,6 @@ namespace :gocha do
   desc "A task used for gocha racket url"
   task :get_url => :environment do
 
-
-    config.before(:each, type: :system, js: true) do
-      driven_by :selenium_chrome_headless
-    end
-
     options = Selenium::WebDriver::Chrome::Options.new
     chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     options.binary = chrome_bin_path if chrome_bin_path # only use custom path on heroku
