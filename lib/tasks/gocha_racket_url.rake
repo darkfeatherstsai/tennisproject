@@ -10,7 +10,7 @@ namespace :gocha do
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
 
     racket_urls = []
-    puts "2"
+    puts "2a"
     sleep 10
 =begin
 
