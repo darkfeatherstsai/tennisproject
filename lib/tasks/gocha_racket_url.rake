@@ -6,7 +6,7 @@ namespace :gocha do
     puts chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
     puts options.binary = chrome_bin_path if chrome_bin_path # only use custom path on heroku
     puts options.add_argument('--headless') # this may be optional
-    puts driver = Selenium::WebDriver.for :chrome, options: options
+    driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
 
     racket_urls = []
