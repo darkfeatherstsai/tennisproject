@@ -3,12 +3,14 @@ namespace :gocha do
   task :get_url => :environment do
 
     options = Selenium::WebDriver::Chrome::Options.new
-    options.add_argument('--headless')
+    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = chrome_bin_path if chrome_bin_path # only use custom path on heroku
+    options.add_argument('--headless') # this may be optional
     driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
 
     racket_urls = []
-    puts "2s"
+    puts "2"
     sleep 10
 =begin
 
