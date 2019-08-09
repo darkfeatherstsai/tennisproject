@@ -12,7 +12,7 @@ namespace :gocha do
     racket_urls = []
     puts "2"
     sleep 10
-=begin
+
 
     until racket_urls.size > 10
       driver.execute_script("window.scrollTo(0, document.documentElement.scrollHeight);")
@@ -100,7 +100,7 @@ namespace :gocha do
       puts url
     end
 
-=end
+
     driver.quit
 
 puts "success"
