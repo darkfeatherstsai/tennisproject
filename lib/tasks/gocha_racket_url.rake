@@ -1,16 +1,15 @@
-namespace :gocha do
+project/namespace :gocha do
   desc "A task used for gocha racket url"
   task :get_url => :environment do
 
-    puts options = Selenium::WebDriver::Chrome::Options.new
-    puts chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-    puts options.binary = chrome_bin_path if chrome_bin_path # only use custom path on heroku
-    puts options.add_argument('--headless') # this may be optional
+    options = Selenium::WebDriver::Chrome::Options.new
+    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
+    options.binary = chrome_bin_path if chrome_bin_path
+    options.add_argument('--headless')
     driver = Selenium::WebDriver.for :chrome, options: options
     driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
 
     racket_urls = []
-    puts "2"
     sleep 10
 
 
@@ -48,21 +47,21 @@ namespace :gocha do
           a ||= Racket.new
           a.name = content.select{|element| element.match(/[物品名稱]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：")
           a.name.downcase!
-          if a.name.include?("wil")
+          if a.name.match?("wil")
             a.label = "wilson"
-          elsif a.name.include?("bab")
+          elsif a.name.match?("bab")
             a.label = "babolat"
-          elsif a.name.include?("yon")
+          elsif a.name.match?(/yon|yy/)
             a.label = "yonex"
-          elsif a.name.include?("he")
+          elsif a.name.match?("he")
             a.label = "head"
-          elsif a.name.include?("pri")
+          elsif a.name.match?("pri")
             a.label = "prince"
-          elsif a.name.include?("dun")
+          elsif a.name.match?("dun")
             a.label = "dunlop"
-          elsif a.name.include?("vol")
+          elsif a.name.match?("vol")
             a.label = "volkl"
-          elsif a.name.include?("tecn")
+          elsif a.name.match?("tecn")
             a.label = "tecnifibre"
           else
             a.label = "其他"
@@ -73,11 +72,12 @@ namespace :gocha do
           end
 
           if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
-            a.price = content.select{|element| element.match(/售價|元|\$/)}[0].match(/\d{4}/)[0]
+            match_ele = content.select{|element| element.match(/售價|元|\$/)}
+            a.price = match_ele.select{|element| element.match(/\d{4}/)}[0].match(/\d{4}/)[0]
           end
 
           if content.select{|element| element.match(/[規格]/)}[0] != nil
-            a.spec = content.select{|element| element.match(/[規格]/)}[0].delete("產品規格：:]")
+            a.spec = content.select{|element| element.match(/規格|拍面|握把|線床/)}.join.delete("產品規格]").slice(1..-1)
           end
 
           if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
