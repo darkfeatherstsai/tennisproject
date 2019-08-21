@@ -41,9 +41,8 @@ namespace :gocha do
         end
 
         if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋車機衣包顆]|back/)}[0] == nil
-          a = Racket.find_by(fb_url: racket_url)
           a ||= Racket.new
-          a.name = content.select{|element| element.match(/[物品名稱]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：")
+          a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：[物品名稱]\n")
           a.name.downcase!
           if a.name.match?("wil")
             a.label = "wilson"
@@ -65,6 +64,8 @@ namespace :gocha do
             a.label = "其他"
           end
 
+          puts "nameOK========================"
+
           if content.select{|element| element.match(/\d{3}[g克]/)} != nil
             a.weight = content.select{|element| element.match(/\d{3}[gG克]/)}[0].match(/\d{3}[gG克]/)[0].delete("gG克").to_i
             puts "weightOK======================"
@@ -85,7 +86,7 @@ namespace :gocha do
           end
 
           if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
-            a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：]/)[1].delete("\n")
+            a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].delete("[使用概況]:：\n")
             puts "profileOK====================="
           end
 
