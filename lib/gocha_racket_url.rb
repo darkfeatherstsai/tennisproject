@@ -30,13 +30,9 @@ require 'nokogiri'
 
         unprocessed_content = doc.search('meta').to_a[12].attr('content')
 
-<<<<<<< HEAD
-        if unprocessed_content.match?(/\[/)
-          content = unprocessed_content.delete("\n").split("[")
-=======
         if unprocessed_content.include?("\n\n")
           content = unprocessed_content.split("\n\n")
->>>>>>> develop
+
         else
           content = unprocessed_content.split("\n")
         end
@@ -67,33 +63,16 @@ require 'nokogiri'
           end
 
           if content.select{|element| element.match(/\d{3}[g克]/)} != nil
-<<<<<<< HEAD
-            a.weight = content.select{|element| element.match(/\d{3}[g克]/)}[0].match(/\d{3}/)[0].to_i
-=======
             a.weight = content.select{|element| element.match(/\d{3}[gG克]/)}[0].match(/\d{3}[gG克]/)[0].delete("gG克").to_i
             puts "weightOK======================"
->>>>>>> develop
           end
 
           if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
             match_ele = content.select{|element| element.match(/售價|元|\$/)}
-<<<<<<< HEAD
-            a.price = match_ele.select{|element| element.match(/\d{4}/)}[0].match(/\d{4}/)[0]
-          end
-
-          if content.select{|element| element.match(/[規格]/)}[0] != nil
-            a.spec = content.select{|element| element.match(/規格|拍面|握把|線床/)}.join.delete("產品規格]").slice(1..-1)
-          end
-
-          if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
-            a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：\s]/)[1]
-=======
-
             match_ele.each do |ele|
               ele.delete!(",")
               a.price = ele.match(/\d{4}/)[0].to_i if ele.match?(/\d{4}/)
             end
-
             puts "priceOK======================="
           end
 
@@ -105,7 +84,6 @@ require 'nokogiri'
           if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
             a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：]/)[1].delete("\n")
             puts "profileOK====================="
->>>>>>> develop
           end
 
           a.fb_url = racket_url
@@ -120,15 +98,6 @@ require 'nokogiri'
         error_url << racket_url
         puts $!
       end
-<<<<<<< HEAD
-
-    end
-
-    error_url.each do |url|
-      puts url
-    end
-
-=======
 
     end
 
@@ -143,7 +112,7 @@ require 'nokogiri'
     end
 
     puts racket_urls.count
->>>>>>> develop
+
     puts error_url.count
     puts not_racket_url.count
 
