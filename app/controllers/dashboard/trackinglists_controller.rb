@@ -20,6 +20,7 @@ class Dashboard::TrackinglistsController < Dashboard::DashboardController
 
   def set_list
     @trackinglist = Trackinglist.find{|list| list.user_id == current_user.id}
+    @trackinglist = Trackinglist.create(:user_id => current_user.id) if @trackinglist == nil
     @rackets = Racket.find(@trackinglist.racket_id)
   end
 end
