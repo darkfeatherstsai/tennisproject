@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 
-html = open('https://www.facebook.com/groups/468527439888685/permalink/3026400194101384/').read
+html = open('https://www.facebook.com/groups/468527439888685/permalink/3013977675343636/').read
 
 doc = Nokogiri::HTML(html)
 
@@ -41,21 +41,32 @@ begin
       a.label = "其他"
     end
 
+    puts "nameOK========================"
+
     if content.select{|element| element.match(/\d{3}[g克]/)} != nil
-      a.weight = content.select{|element| element.match(/\d{3}[gG克]/)}[0].match(/\d{3}/)[0].to_i
+      a.weight = content.select{|element| element.match(/\d{3}[gG克]/)}[0].match(/\d{3}[gG克]/)[0].delete("gG克").to_i
+      puts "weightOK======================"
     end
 
     if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
       match_ele = content.select{|element| element.match(/售價|元|\$/)}
-      a.price = match_ele.select{|element| element.match(/\d{4}/)}[0].match(/\d{4}/)[0].to_i
+
+      match_ele.each do |ele|
+        ele.delete!(",")
+        a.price = ele.match(/\d{4}/)[0].to_i if ele.match?(/\d{4}/)
+      end
+
+      puts "priceOK======================="
     end
 
     if content.select{|element| element.match(/[規格]/)}[0] != nil
       a.spec = content.select{|element| element.match(/規格|拍面|握把|線床/)}.join.delete("[產品規格]:：")
+      puts "specOK========================"
     end
 
     if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
-      a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：]/)[1].delete("\n")
+      a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].delete("[使用概況]:：\n")
+      puts "profileOK====================="
     end
     a.save
     puts a
@@ -63,5 +74,4 @@ begin
 
 rescue
   puts $!
-
 end
