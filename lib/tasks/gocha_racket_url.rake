@@ -13,7 +13,7 @@ namespace :gocha do
     sleep 10
 
 
-    until racket_urls.size > 10
+    until racket_urls.size > 50
       driver.execute_script("window.scrollTo(0, document.documentElement.scrollHeight);")
       links = driver.find_elements(:class, "_5pcq")
       links.each do |link|
@@ -112,11 +112,8 @@ namespace :gocha do
     end
 
     puts racket_urls.count
-
     puts error_url.count
     puts not_racket_url.count
-
-
 
   end
 
