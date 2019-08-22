@@ -112,11 +112,8 @@ namespace :gocha do
     end
 
     puts racket_urls.count
-
     puts error_url.count
     puts not_racket_url.count
-
-
 
   end
 
