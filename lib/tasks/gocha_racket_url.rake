@@ -96,6 +96,9 @@ namespace :gocha do
           a.fb_url = racket_url
           a.lunched = 1 if a.name.size < 50
           a.save
+
+        else
+          not_racket_url << racket_url
         end
 
       rescue
