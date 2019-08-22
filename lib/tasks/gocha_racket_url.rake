@@ -16,10 +16,12 @@ namespace :gocha do
     until racket_urls.size > 50
       driver.execute_script("window.scrollTo(0, document.documentElement.scrollHeight);")
       links = driver.find_elements(:class, "_5pcq")
+
       links.each do |link|
         racket_urls << link.property('href')
         racket_urls.uniq!
       end
+
       sleep 5
     end
 
@@ -43,7 +45,7 @@ namespace :gocha do
         if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋車機衣包顆]|back/)}[0] == nil
           a = Racket.find_by(fb_url: racket_url)
           a ||= Racket.new
-          a.name = content.select{|element| element.match(/[物品名稱]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：")
+          a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：[物品名稱]\n")
           a.name.downcase!
           if a.name.match?("wil")
             a.label = "wilson"
@@ -72,10 +74,12 @@ namespace :gocha do
 
           if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
             match_ele = content.select{|element| element.match(/售價|元|\$/)}
+
             match_ele.each do |ele|
               ele.delete!(",")
               a.price = ele.match(/\d{4}/)[0].to_i if ele.match?(/\d{4}/)
             end
+
             puts "priceOK======================="
           end
 
@@ -85,7 +89,7 @@ namespace :gocha do
           end
 
           if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
-            a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].split(/[:：]/)[1].delete("\n")
+            a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].delete("[使用概況]:：\n")
             puts "profileOK====================="
           end
 
@@ -115,6 +119,7 @@ namespace :gocha do
     puts error_url.count
     puts not_racket_url.count
 
+    driver.quit
   end
 
 end
