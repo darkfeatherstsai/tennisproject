@@ -1,25 +1,18 @@
 require 'open-uri'
 require 'nokogiri'
 
-html = open('https://www.facebook.com/groups/468527439888685/permalink/3013977675343636/').read
+html = open('https://www.facebook.com/groups/468527439888685/permalink/3012354735505930/').read
 
 doc = Nokogiri::HTML(html)
 
-unprocessed_content = doc.search('meta').to_a[12].attr('content')
-
-if unprocessed_content.include?("\n\n")
-  content = unprocessed_content.split("\n\n")
-else
-  content = unprocessed_content.split("\n")
-end
-
-
+unprocessed_content = doc.search('code')[1].children[0].content.scan(/我.+<\/p><\/div>/)[0]
+content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/p>|<p>|<\/div>|\s\s/,"").split("<br />")
 
 begin
 
-  if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋車機衣包顆]|back/)}[0] == nil
+  if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
     a ||= Racket.new
-    a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：[物品名稱]\n")
+    a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
     a.name.downcase!
     if a.name.match?("wil")
       a.label = "wilson"
@@ -60,14 +53,16 @@ begin
     end
 
     if content.select{|element| element.match(/[規格]/)}[0] != nil
-      a.spec = content.select{|element| element.match(/規格|拍面|握把|線床/)}.join.delete("[產品規格]:：")
+      a.spec = content.select{|element| element.match(/規格|拍面|握把|線床/)}.join.delete("［[產品規格]］:：\n")
       puts "specOK========================"
     end
 
     if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
-      a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].delete("[使用概況]:：\n")
+      a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].delete("［[使用概況]］:：\n")
       puts "profileOK====================="
     end
+
+    a.lunched = 1 if a.name.size < 50
     a.save
     puts a
   end
