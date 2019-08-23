@@ -25,12 +25,16 @@ require 'nokogiri'
 
     racket_urls.each do |racket_url|
       begin
+
         html = open(racket_url).read
-
         doc = Nokogiri::HTML(html)
-
         unprocessed_content = doc.search('code')[1].children[0].content.scan(/我.+<\/p><\/div>/)[0]
-        content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/p>|<p>|<\/div>|\s\s/,"").split("<br />")
+        if unprocessed_content.count("p") > unprocessed_content.count("b")
+          content = unprocessed_content.sub("<br />","</p>").gsub(/<\/span>|<\/a>|<\/div>|<p>|<br \/>|\s\s/,"").split("</p>")
+        else
+          content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/div>|<p>|<\/p>|\s\s/,"").split("<br />")
+        end
+        
         racket_state = []
 
         if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
