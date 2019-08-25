@@ -40,12 +40,12 @@ namespace :gocha do
         else
           content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/div>|<p>|<\/p>|\s\s/,"").split("<br />")
         end
-        racket_state = []
+        racket_state = [racket_url]
 
         if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
           a = Racket.find_by(fb_url: racket_url)
           a ||= Racket.new
-          a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
+          a.name = content.select{|element| element.match(/["名稱"|"物品"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
           a.name.downcase!
           if a.name.match?("wil")
             a.label = "wilson"
@@ -95,7 +95,7 @@ namespace :gocha do
           end
 
           a.fb_url = racket_url
-          a.lunched = 1 if racket_state.count == 5
+          a.lunched = 1 if racket_state.count == 6
           a.save
           puts racket_state
           puts "====================="
@@ -105,9 +105,10 @@ namespace :gocha do
         end
 
       rescue
-        error_url << racket_url
         puts racket_state
         puts $!
+        racket_state << $!
+        error_url << racket_state
       end
 
     end
@@ -125,6 +126,7 @@ namespace :gocha do
     puts racket_urls.count
     puts error_url.count
     puts not_racket_url.count
+    ContactMailer.send_crawler_result(racket_urls,not_racket_url,error_url).deliver_now
 
     driver.quit
   end

@@ -18,7 +18,7 @@ Racket.all.each do |racket|
 
     if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
 
-      a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
+      a.name = content.select{|element| element.match(/["名稱"|"物品"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
       a.name.downcase!
       if a.name.match?("wil")
         a.label = "wilson"

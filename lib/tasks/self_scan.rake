@@ -1,8 +1,9 @@
 namespace :scan do
   desc "A task used for scan all racket url in the Racket"
   task :url => :environment do
-
-    Racket.all.each do |racket|
+    racket_urls = Racket.where(lunched: 1)
+    racket_states = []
+    racket_urls.each do |racket|
       begin
       a = racket
       url = racket.fb_url
@@ -15,81 +16,55 @@ namespace :scan do
         content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/div>|<p>|<\/p>|\s\s/,"").split("<br />")
       end
 
-      racket_state = []
+      state = []
 
-      if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
-        a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
-        a.name.downcase!
-        if a.name.match?("wil")
-          a.label = "wilson"
-        elsif a.name.match?("bab")
-          a.label = "babolat"
-        elsif a.name.match?(/yon|yy/)
-          a.label = "yonex"
-        elsif a.name.match?("he")
-          a.label = "head"
-        elsif a.name.match?("pri")
-          a.label = "prince"
-        elsif a.name.match?("dun")
-          a.label = "dunlop"
-        elsif a.name.match?("vol")
-          a.label = "volkl"
-        elsif a.name.match?("tecn")
-          a.label = "tecnifibre"
-        else
-          a.label = "其他"
-        end
-        a.name = "[售出] #{a.name}" if content.match?("售出") 
-        racket_state << "nameOK"
-
-        if content.select{|element| element.match(/\d{3}[g克]/)} != nil
-          a.weight = content.select{|element| element.match(/\d{3}[gG克]/)}[0].match(/\d{3}[gG克]/)[0].delete("gG克").to_i
-          racket_state << "weightOK"
-        end
-
-        if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
-          match_ele = content.select{|element| element.match(/售價|元|\$/)}
-
-          match_ele.each do |ele|
-            ele.delete!(",")
-            a.price = ele.match(/\d{4}/)[0].to_i if ele.match?(/\d{4}/)
-          end
-
-          racket_state << "priceOK"
-        end
-
-        if content.select{|element| element.match(/[規格]/)}[0] != nil
-          a.spec = content.select{|element| element.match(/規格|拍面|握把|線床/)}.join.delete("［[產品規格]］:：\n")
-          racket_state << "specOK"
-        end
-
-        if content.select{|element| element.match(/使用|概況|狀態/)}[0] != nil
-          a.profile = content.select{|element| element.match(/使用|概況|狀態/)}[0].delete("［[使用概況]］:：\n")
-          racket_state << "profileOK"
-        end
-
-        a.lunched = 1 if racket_state.count == 5
-        a.save
-        puts racket_state
-        puts "====================="
-
-      else
-        not_racket_url << racket_url
+      if content.include?("售出")
+        a.name = "[售出] #{a.name}"
+        a.lunched = 2
+        state << "已售出"
       end
+
+      if content.select{|element| element.match(/售價|元|\$/)}[0] != nil
+        match_ele = content.select{|element| element.match(/售價|元|\$/)}
+        new_price = a.price
+        match_ele.each do |ele|
+          ele.delete!(",")
+          new_price = ele.match(/\d{4}/)[0].to_i if ele.match?(/\d{4}/)
+        end
+
+        if a.price != new_price
+          state << "price is changed"
+          a.price = new_price
+        end
+
+      end
+
+      a.save
+      puts "still onsale , price doesn't change"
+      puts "====================="
 
       rescue
         puts $!
         puts url
-        puts unprocessed_content
 
         if unprocessed_content == nil
-          a.lunched = 0
+          a.lunched = 2
           a.name = "[售出]#{a.name}"
           a.save
+          state << "已售出"
         end
 
       end
-    end
-  end
 
+      if state.count != 0
+        state << url
+        racket_states << state
+      end
+
+    end
+
+    racket_urls = Racket.all
+    ContactMailer.send_scan_result(racket_urls,racket_states).deliver_now
+
+  end
 end
