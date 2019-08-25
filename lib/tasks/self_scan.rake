@@ -39,7 +39,7 @@ namespace :scan do
         else
           a.label = "其他"
         end
-        a.name = "[售出] #{a.name}" if content.match?("售出") 
+        a.name = "[售出] #{a.name}" if content.match?("售出")
         racket_state << "nameOK"
 
         if content.select{|element| element.match(/\d{3}[g克]/)} != nil
