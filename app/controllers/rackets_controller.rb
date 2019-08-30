@@ -1,5 +1,6 @@
 class RacketsController < ApplicationController
   protect_from_forgery with: :null_session
+  require 'line/bot'
 
   def index
     @rackets = @paginate = Racket.paginate(:page =>params[:page])
@@ -32,6 +33,18 @@ class RacketsController < ApplicationController
   end
 
   def webhook
+    client = Line::Bot::Client.new { |config|
+      config.channel_id = Rails.application.credentials.aws[:LINE_CHANNEL_ID]
+      config.channel_secret = Rails.application.credentials.aws[:LINE_CHANNEL_SECRET]
+      config.channel_token = Rails.application.credentials.aws[:LINE_CHANNEL_TOKEN]
+    }
+    reply_token = params['events'][0]['replyToken']
+
+    # 設定回覆訊息
+    message = {
+      type: 'text',
+      text: '好哦～好哦～'
+    }
     head :ok
   end
 end
