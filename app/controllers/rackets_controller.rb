@@ -45,6 +45,9 @@ class RacketsController < ApplicationController
       type: 'text',
       text: '好哦～好哦～'
     }
+
+    response = client.reply_message(reply_token, message)
+
     head :ok
   end
 end
