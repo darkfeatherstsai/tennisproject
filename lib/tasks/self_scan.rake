@@ -7,6 +7,8 @@ namespace :scan do
       begin
       a = racket
       url = racket.fb_url
+      state = []
+
       html = open(url).read
       doc = Nokogiri::HTML(html)
       unprocessed_content = doc.search('code')[1].children[0].content.scan(/我.+<\/p><\/div>/)[0]
@@ -15,8 +17,6 @@ namespace :scan do
       else
         content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/div>|<p>|<\/p>|\s\s/,"").split("<br />")
       end
-
-      state = []
 
       if content.include?("售出")
         a.name = "[售出] #{a.name}"

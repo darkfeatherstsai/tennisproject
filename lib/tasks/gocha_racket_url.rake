@@ -31,6 +31,7 @@ namespace :gocha do
 
     racket_urls.each do |racket_url|
       begin
+        racket_state = [racket_url]
 
         html = open(racket_url).read
         doc = Nokogiri::HTML(html)
@@ -40,7 +41,6 @@ namespace :gocha do
         else
           content = unprocessed_content.gsub(/<\/span>|<\/a>|<\/div>|<p>|<\/p>|\s\s/,"").split("<br />")
         end
-        racket_state = [racket_url]
 
         if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
           a = Racket.find_by(fb_url: racket_url)
@@ -105,6 +105,7 @@ namespace :gocha do
         end
 
       rescue
+        puts racket_url
         puts racket_state
         puts $!
         racket_state << $!
