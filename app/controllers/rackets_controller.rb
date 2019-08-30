@@ -1,4 +1,5 @@
 class RacketsController < ApplicationController
+  protect_from_forgery with: :null_session
 
   def index
     @rackets = @paginate = Racket.paginate(:page =>params[:page])
@@ -27,8 +28,10 @@ class RacketsController < ApplicationController
         found_racket << r
       end
     end
-
     @rackets = @paginate = found_racket.paginate(:page => params[:page])
+  end
 
+  def webhook
+    head :ok
   end
 end
