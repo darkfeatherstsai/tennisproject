@@ -2,7 +2,7 @@ require 'open-uri'
 require 'nokogiri'
 
 
-html = open('https://www.facebook.com/groups/468527439888685/permalink/3035474786527258/').read
+html = open('https://www.facebook.com/groups/468527439888685/permalink/2970915082983229').read
 
 doc = Nokogiri::HTML(html)
 unprocessed_content = doc.search('code')[1].children[0].content.scan(/我.+<\/p><\/div>/)[0]
@@ -17,7 +17,7 @@ end
 
   if content.first.match?("賣") && content.select{|element| element.match(/日本|[裝鞋機衣包顆]|back/)}[0] == nil
     a ||= Racket.new
-    a.name = content.select{|element| element.match(/["名稱"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
+    a.name = content.select{|element| element.match(/["名稱"|"物品"]/)}[0].split(/[:：\}\s]/ , 2)[1].delete(":：［[物品名稱]］\n")
     a.name.downcase!
     if a.name.match?("wil")
       a.label = "wilson"
