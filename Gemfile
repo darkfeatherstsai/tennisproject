@@ -40,6 +40,11 @@ gem "whenever"
 #定時執行
 gem 'selenium-webdriver'
 #網頁爬蟲
+gem 'line-bot-api'
+# line
+gem "nokogiri", ">= 1.10.4"
+
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

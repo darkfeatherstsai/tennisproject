@@ -1,0 +1,9 @@
+資料庫球拍的數量：<%= @racket_urls.count %> <br>
+上架球拍的數量：<%= @racket_urls.where(lunched: 1).count %> <br>
+已售出球拍的數量：<%= @racket_urls.where(lunched: 2).count %> <br>
+價格有變動的球拍：<%= @racket_states.count %><br>
+<% @racket_states.each do |racket|  %>
+  <% racket.each do |state| %>
+    <%= state %> <br>
+  <% end %>
+<% end  %>

@@ -1,0 +1,13 @@
+全部連結的數量：<%= @racket_urls.count %> <br>
+不是球拍的數量：<%= @not_racket_url.count %> <br>
+不是球拍的連結：<br>
+<% @not_racket_url.each do |element|  %>
+  <%= element %> <br>
+<% end  %>
+出現錯誤的數量：<%= @error_url.count %> <br>
+出現錯誤的連結：<br>
+  <% @error_url.each do |url|  %>
+    <% url.each do |element| %>
+      <%= element %> <br>
+    <% end %>
+  <% end  %>
