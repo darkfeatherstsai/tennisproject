@@ -33,12 +33,6 @@ class RacketsController < ApplicationController
   end
 
   def webhook
-    # Line Bot API 物件初始化
-    client = Line::Bot::Client.new { |config|
-      config.channel_id = Rails.application.credentials.aws[:LINE_CHANNEL_ID]
-      config.channel_secret = Rails.application.credentials.aws[:LINE_CHANNEL_SECRET]
-      config.channel_token = Rails.application.credentials.aws[:LINE_CHANNEL_TOKEN]
-    }
 
     # 取得 reply token
     reply_token = params['events'][0]['replyToken']
@@ -54,5 +48,14 @@ class RacketsController < ApplicationController
 
     # 回應 200
     head :ok
+  end
+
+  # Line Bot API 物件初始化
+  def line
+    @line ||= Line::Bot::Client.new { |config|
+      config.channel_id = Rails.application.credentials.aws[:LINE_CHANNEL_ID]
+      config.channel_secret = Rails.application.credentials.aws[:LINE_CHANNEL_SECRET]
+      config.channel_token = Rails.application.credentials.aws[:LINE_CHANNEL_TOKEN]
+    }
   end
 end
