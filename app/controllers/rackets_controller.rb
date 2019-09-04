@@ -41,11 +41,6 @@ class RacketsController < ApplicationController
 
     # 回應 200
     head :ok
-    # 傳送訊息到 line
-    response = reply_to_line(reply_text)
-
-    # 回應 200
-    head :ok
   end
 
   # 取得對方說的話
@@ -94,6 +89,7 @@ class RacketsController < ApplicationController
 
         # 傳送訊息
         line.reply_message(reply_token, message)
+
   end
 
 
