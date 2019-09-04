@@ -49,44 +49,53 @@ class RacketsController < ApplicationController
     message['text'] unless message.nil?
   end
 
-  #關鍵字回覆
+  # 關鍵字回覆
   def keyword_reply(received_text)
-    found_racket = []
-
     if received_text[0..4] == "gocha"
 
-      #檢查格式是否正確
+      # 檢查格式是否正確
       racket = received_text.split(",")
       return "格式不符" if racket.count != 6
-
-      #搜尋符合條件的球拍
-      match_racket = Racket.where(lunched: 1).where(weight: racket[2].to_i..racket[3].to_i).where(price: racket[4].to_i..racket[5].to_i)
-      if match_racket.count > 0
-        match_racket.find_each do |r|
-          if r.name.include?(racket[1]) || r.label.include?(racket[1])
-            found_racket << "#{r.name} #{r.weight} #{r.price} #{r.fb_url}"
-          end
-        end
-      else
-        return "沒有符合的球拍"
-      end
-
-      return found_racket.join("\n")
+      return find_racket_line(racket)
     end
+  end
+
+  # 搜尋符合條件的球拍
+  def find_racket_line(racket)
+    found_racket = []
+    match_racket = Racket.where(lunched: 1).where(weight: racket[2].to_i..racket[3].to_i).where(price: racket[4].to_i..racket[5].to_i)
+    if match_racket.count > 0
+      match_racket.find_each do |r|
+        if r.name.include?(racket[1]) || r.label.include?(racket[1])
+          found_racket << "#{r.name} #{r.weight} #{r.price} #{r.fb_url}"
+        end
+      end
+    else
+      return "沒有符合的球拍"
+    end
+
+    return found_racket
   end
 
   def reply_to_line(reply_text)
     # 取得 reply token
     reply_token = params['events'][0]['replyToken']
 
-    # 設定回覆訊息
-    message = {
-      type: 'text',
-      text: reply_text
-    }
+    # 如果文字量過大
+    if reply_text.count > 5
+      index = 0
+      until index > reply_text.count
+        # 設定回覆訊息
+        message = {
+          type: 'text',
+          text: reply_text[index..index+4]
+        }
 
-    # 傳送訊息
-    line.reply_message(reply_token, message)
+        # 傳送訊息
+        line.reply_message(reply_token, message)
+        index += 5
+      end
+    end
   end
 
   # Line Bot API 物件初始化
