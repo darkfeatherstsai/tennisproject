@@ -24,8 +24,8 @@ class RacketsController < ApplicationController
 
   def findracket
     found_racket = []
-    Racket.find_each do |r|
-      if r.lunched == 1 && (r.name.include?(params[:keyword]) || r.label.include?(params[:keyword]))
+    Racket.where(lunched: 1).find_each do |r|
+      if r.name.include?(params[:keyword]) || r.label.include?(params[:keyword])
         found_racket << r
       end
     end
@@ -51,17 +51,25 @@ class RacketsController < ApplicationController
 
   #關鍵字回覆
   def keyword_reply(received_text)
-    received_text
+    found_racket = []
+    racket = received_text.split(",")
+    return "格式不符" if racket[0] != "gocha"
+    Racket.where(lunched: 1).where(weight: racket[2].to_i..racket[3].to_i).where(price: racket[4].to_i..racket[5].to_i).find_each do |r|
+      if r.name.include?(racket[1]) || r.label.include?(racket[1])
+        found_racket << "#{r.label} #{r.name} #{r.weight} #{r.price} #{r.fb_url}"
+      end
+    end
+    found_racket.join("\n")
   end
 
-  def reply_to_line(message)
+  def reply_to_line(reply_text)
     # 取得 reply token
     reply_token = params['events'][0]['replyToken']
 
     # 設定回覆訊息
     message = {
       type: 'text',
-      text: "#{Racket.last}"
+      text: reply_text
     }
 
     # 傳送訊息
