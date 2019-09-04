@@ -84,10 +84,11 @@ class RacketsController < ApplicationController
         # 設定回覆訊息
         message = {
           type: 'text',
-          text: reply_text
+          text: reply_text.join("\n")
         }
 
         # 傳送訊息
+        line.reply_message(reply_token, message)
         line.reply_message(reply_token, message)
   end
 
