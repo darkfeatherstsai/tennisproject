@@ -53,9 +53,13 @@ class RacketsController < ApplicationController
   def keyword_reply(received_text)
     found_racket = []
 
-    begin
     if received_text[0..4] == "gocha"
+
+      #檢查格式是否正確
       racket = received_text.split(",")
+      return "格式不符" if racket.count != 6
+
+      #搜尋符合條件的球拍
       match_racket = Racket.where(lunched: 1).where(weight: racket[2].to_i..racket[3].to_i).where(price: racket[4].to_i..racket[5].to_i)
       if match_racket.count > 0
         match_racket.find_each do |r|
@@ -67,14 +71,8 @@ class RacketsController < ApplicationController
         return "沒有符合的球拍"
       end
 
-      retuen found_racket.join("\n")
+      return found_racket.join("\n")
     end
-
-    #出現錯誤
-    rescue
-      return "格式不符"
-    end
-
   end
 
   def reply_to_line(reply_text)
