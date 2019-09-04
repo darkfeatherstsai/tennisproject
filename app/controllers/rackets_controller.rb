@@ -52,14 +52,22 @@ class RacketsController < ApplicationController
   #關鍵字回覆
   def keyword_reply(received_text)
     found_racket = []
-    racket = received_text.split(",")
-    return "格式不符" if racket[0] != "gocha"
-    Racket.where(lunched: 1).where(weight: racket[2].to_i..racket[3].to_i).where(price: racket[4].to_i..racket[5].to_i).find_each do |r|
-      if r.name.include?(racket[1]) || r.label.include?(racket[1])
-        found_racket << "#{r.label} #{r.name} #{r.weight} #{r.price} #{r.fb_url}"
+    begin
+    if received_text[0..4] == "gocha"
+      racket = received_text.split(",")
+      Racket.where(lunched: 1).where(weight: racket[2].to_i..racket[3].to_i).where(price: racket[4].to_i..racket[5].to_i).find_each do |r|
+        if r.name.include?(racket[1]) || r.label.include?(racket[1])
+          found_racket << "#{r.label} #{r.name} #{r.weight} #{r.price} #{r.fb_url}"
+        end
       end
+      retuen found_racket.join("\n")
     end
-    found_racket.join("\n")
+
+    #出現錯誤  
+    rescue
+      return "沒有符合的球拍或是格式不符"
+    end
+
   end
 
   def reply_to_line(reply_text)
