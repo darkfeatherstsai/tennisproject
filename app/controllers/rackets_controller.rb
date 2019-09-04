@@ -81,22 +81,16 @@ class RacketsController < ApplicationController
     # 取得 reply token
     reply_token = params['events'][0]['replyToken']
 
-    # 如果文字量過大
-    if reply_text.count > 5
-      index = 0
-      until index > reply_text.count
         # 設定回覆訊息
         message = {
           type: 'text',
-          text: reply_text[index..index+4]
+          text: reply_text
         }
 
         # 傳送訊息
         line.reply_message(reply_token, message)
-        index += 5
-      end
-    end
   end
+
 
   # Line Bot API 物件初始化
   def line
