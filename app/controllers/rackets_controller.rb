@@ -73,29 +73,42 @@ class RacketsController < ApplicationController
     else
       return "沒有符合的球拍"
     end
-
+    if found_racket.count > 3
+      5.times do
+        response = push_to_line("U93bfce2b250065c001f5bdb965419083")
+      end
+    end
     return found_racket.join("\n")
+  end
+
+  def push_to_line(userid)
+
+    # 設定回覆訊息
+    message = {
+      type: 'text',
+      text: "發話測試"
+    }
+
+    # 傳送訊息到 line
+    line.push_message(userid, message)
+
+    # 回應 200
+    head :ok
   end
 
   def reply_to_line(reply_text)
     # 取得 reply token
     reply_token = params['events'][0]['replyToken']
-    userid = params['events'][0]['userId']
+
         # 設定回覆訊息
         message = {
           type: 'text',
           text: reply_text
         }
-        message2 = {
-          type: 'text',
-          text: "發話測試"
-        }
 
         # 傳送訊息
         line.reply_message(reply_token, message)
-        line.push_message(userid, message2)
   end
-
 
   # Line Bot API 物件初始化
   def line
