@@ -74,22 +74,22 @@ class RacketsController < ApplicationController
       return "沒有符合的球拍"
     end
 
-    return found_racket
+    return found_racket.join("\n")
   end
 
   def reply_to_line(reply_text)
     # 取得 reply token
     reply_token = params['events'][0]['replyToken']
-
+    userid = params['events'][0]['userId']
         # 設定回覆訊息
         message = {
           type: 'text',
-          text: reply_text.join("\n")
+          text: reply_text
         }
 
         # 傳送訊息
         line.reply_message(reply_token, message)
-
+        line.push_message(userid, "測試測試")
   end
 
 
