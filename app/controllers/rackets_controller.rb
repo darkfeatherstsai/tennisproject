@@ -86,10 +86,14 @@ class RacketsController < ApplicationController
           type: 'text',
           text: reply_text
         }
+        message2 = {
+          type: 'text',
+          text: "發話測試"
+        }
 
         # 傳送訊息
         line.reply_message(reply_token, message)
-        line.push_message(userid, "測試測試")
+        line.push_message(userid, message2)
   end
 
 
