@@ -74,33 +74,7 @@ class RacketsController < ApplicationController
       return "沒有符合的球拍"
     end
 
-    if found_racket.count > 5
-      index = 0
-      until index > found_racket.count
-        response = push_to_line(found_racket[index..(index+4)])
-        index += 5
-      end
-    end
     return found_racket.join("\n")
-  end
-
-  def push_to_line(racket)
-    # "U93bfce2b250065c001f5bdb965419083"
-    userid = params['events'][0]['userId']
-    p "==============="
-    p userid
-    p "==============="
-    # 設定回覆訊息
-    message = {
-      type: 'text',
-      text: racket
-    }
-
-    # 傳送訊息到 line
-    line.push_message(userid, message)
-
-    # 回應 200
-    head :ok
   end
 
   def reply_to_line(reply_text)
