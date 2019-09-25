@@ -59,4 +59,4 @@
 #     auth_methods: %w(publickey password)
 #     # password: "please use keys"
 #   }
-server "104.119.170.17", user: "deploy", roles: %w{app db web}, my_property: :myvalue
+server "104.199.170.17", user: "deploy", roles: %w{app db web}, my_property: :myvalue
