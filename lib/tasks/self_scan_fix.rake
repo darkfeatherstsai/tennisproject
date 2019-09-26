@@ -1,34 +1,8 @@
-namespace :gocha do
-  desc "A task used for gocha racket url"
-  task :get_url => :environment do
-
-    options = Selenium::WebDriver::Chrome::Options.new
-    chrome_bin_path = ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-    options.binary = chrome_bin_path if chrome_bin_path
-    options.add_argument('--headless')
-    driver = Selenium::WebDriver.for :chrome, options: options
-    driver.navigate.to 'https://www.facebook.com/groups/468527439888685/'
-
-    racket_urls = []
-    sleep 10
-
-
-    until racket_urls.size > 50
-      driver.execute_script("window.scrollTo(0, document.documentElement.scrollHeight);")
-      links = driver.find_elements(:class, "_5pcq")
-
-      links.each do |link|
-        racket_urls << link.property('href')
-        racket_urls.uniq!
-      end
-
-      sleep 5
-    end
-
-    not_racket_url = []
-    error_url = []
-
-
+namespace :scan do
+  desc "A task used for scan all racket url in the Racket"
+  task :url => :environment do
+    racket_urls = Racket.where(lunched: 1)
+    racket_states = []
     racket_urls.each do |racket_url|
       begin
         racket_state = [racket_url]
@@ -130,12 +104,8 @@ namespace :gocha do
       puts url
     end
 
-    puts racket_urls.count
-    puts error_url.count
-    puts not_racket_url.count
-    ContactMailer.send_crawler_result(racket_urls,not_racket_url,error_url).deliver_now
+    racket_urls = Racket.all
+    ContactMailer.send_scan_result(racket_urls,racket_states).deliver_now
 
-    driver.quit
   end
-
 end
