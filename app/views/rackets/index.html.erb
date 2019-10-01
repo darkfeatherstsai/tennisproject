@@ -1,20 +1,47 @@
+<style>
+	.demo {
+		border:1px solid #C0C0C0;
+		border-collapse:collapse;
+		padding:5px;
+	}
+	.demo th {
+		border:1px solid #C0C0C0;
+		padding:5px;
+		background:#F0F0F0;
+	}
+	.demo td {
+		border:1px solid #C0C0C0;
+		padding:5px;
+	}
+</style>
 <h1> <%= link_to "首頁" , root_path %> </h1>
 
 <p id="notice"><%= notice %></p>
 
 <h1>商品列表   <%= link_to "我的追蹤" , dashboard_trackinglists_path %> </h1>
-<%= form_tag("rackets/findracket", method: "get") do %>
-  <%= label_tag(:keyword, "Search for:") %>
-  <%= text_field_tag(:keyword) %>
-  <%= submit_tag("search") %>
+<h2>找球拍</h2>
+<%= search_form_for @q do |f| %>
+  <%= f.label :價錢下限： %>
+  <%= f.search_field :price_gteq %>
+
+  <%= f.label :價錢上限： %>
+  <%= f.search_field :price_lteq %>
+
+  <%= f.label :重量下限： %>
+  <%= f.search_field :weight_gteq %>
+
+  <%= f.label :重量上限： %>
+  <%= f.search_field :weight_lteq %>
+
+  <%= f.label :名子： %>
+  <%= f.search_field :name_cont %>
+
+  <%= f.submit :gocha %>
 <% end %>
-<h2>
-  <%= link_to "價格由高至低" , rackets_price_sort_decs_path %>
-  <%= link_to "價格由低至高" , rackets_price_sort_acs_path %>
-  <%= link_to "廠牌由A至Z" , rackets_label_sort_acs_path %>
-  <%= link_to "廠牌由Z至A" , rackets_label_sort_decs_path %>
-</h2>
-<table>
+
+<h2><%= sort_link(@q, :price, '依價格排序', default_order: :desc) %>  <%= sort_link(@q, :name, '依名稱排序', default_order: :desc) %>  <%= sort_link(@q, :weight, '依重量排序', default_order: :desc) %></h2>
+
+<table class="demo">
   <thead>
     <tr>
       <th>名子</th>

@@ -44,6 +44,8 @@ gem 'line-bot-api'
 # line
 gem "nokogiri", ">= 1.10.4"
 
+gem "ransack"
+
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
