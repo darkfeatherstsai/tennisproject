@@ -44,6 +44,11 @@ gem 'line-bot-api'
 # line
 gem "nokogiri", ">= 1.10.4"
 
+gem "ransack"
+#排序及搜尋
+
+gem 'jquery-rails'
+
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

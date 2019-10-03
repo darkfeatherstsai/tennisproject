@@ -6,11 +6,6 @@ Rails.application.routes.draw do
   resources :rackets , :only => [:index ]
 
   post "webhook", to: "rackets#webhook"
-  get "rackets/price_sort_decs" , to: "rackets#price_sort_decs"
-  get "rackets/price_sort_acs" , to: "rackets#price_sort_acs"
-  get "rackets/label_sort_decs" , to: "rackets#label_sort_decs"
-  get "rackets/label_sort_acs" , to: "rackets#label_sort_acs"
-  get "rackets/findracket" , to: "rackets#findracket"
 
   namespace :dashboard do
 
