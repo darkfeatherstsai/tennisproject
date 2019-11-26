@@ -23,6 +23,10 @@ env :PATH, ENV['PATH']
 env :DISPLAY, ENV['DISPLAY']
 set :environment, :development
 
-every '17 * * * *' do
+every '15 0,9,12,18,21 * * *' do
   rake "gocha:get_url"
+end
+
+every '20 0,9,12,18,21 * * *' do
+  rake "scan:url"
 end

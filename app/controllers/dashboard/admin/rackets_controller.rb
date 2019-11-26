@@ -2,7 +2,8 @@ class Dashboard::Admin::RacketsController < Dashboard::Admin::AdminController
 
 
   def index
-    @rackets = @paginate = Racket.paginate(:page => params[:page])
+    @q = Racket.ransack(params[:q])
+    @rackets = @paginate = @q.result.paginate(:page => params[:page] , :per_page => 15)
   end
 
   def new

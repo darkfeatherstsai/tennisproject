@@ -56,7 +56,7 @@
 
   <tbody>
     <% @rackets.each do |racket| %>
-      <% if racket.lunched == 1 %>
+
         <tr>
           <td><%= racket.name %></td>
           <td><%= racket.label %></td>
@@ -67,7 +67,7 @@
           <td><%= link_to("FB社團連結" , racket.fb_url) %></td>
           <td><%= link_to "追蹤" , add_dashboard_trackinglist_path(racket) , method: "post" , notice: "已追蹤" %></td>
         </tr>
-      <% end %>
+      
     <% end %>
 
   </tbody>
