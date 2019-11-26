@@ -4,7 +4,8 @@ class RacketsController < ApplicationController
 
   def index
     @q = Racket.ransack(params[:q])
-    @rackets = @paginate = @q.result.paginate(:page =>params[:page])
+    rackets = @q.result.ransack(lunched_eq: 1)
+    @rackets = @paginate = rackets.result.paginate(:page => params[:page] , :per_page => 15)
   end
 
 
